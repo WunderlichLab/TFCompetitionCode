@@ -29,7 +29,7 @@ Calculating reporter distance – ReporterDistDistribution_RW
 2.	Plots this information as in Supplemental Figure 6A (all average distances for each reporter construct) and 6B (Average reporter distances for each reporter construct broken down into nuclei that did or did not have negative covariance), and Supplemental Figure 8 (Distribution of distances between reporters for all time points for each reporter construct). 
 
 
-Python TF binding probability model
+Python TF binding probability model - Clean pBound Analysis
 
 Modeling of TF binding probability was done using Python code, found in the TF_pBound Jupyter Notebook, run on a high performance computing cluster. The bash code used to call the modeling code is also in this notebook, along with the code to generate model-related figures. 
 The Bcd gradient used in this code is from Fowlkes, et al., 2008, but different TF gradients could be used. You first need to generate the input parameters for the model (i.e. the range of Es, C, and T you want to use). The resulting file is then used as input for the modeling code, which again, is called using the bash script.   
