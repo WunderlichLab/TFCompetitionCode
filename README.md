@@ -5,7 +5,9 @@ Before running any of the reporter analysis scripts, you will first need to trac
 Running "RW" scripts for compiling and plotting data as in Waymack, et al, 2021:
 1.	Run “RunComparingSpotCorrAdjRW” to create SpotDiff.m files for all approved movies – The most important thing this function does is use the ElapsedTime of your movie, the nuclear tracking information (‘XXX_lin.mat’ and APDetection.mat) , and the spot tracking information (CompiledParticles) to determine for each time frame whether a given nucleus exists in the movie or not and if so, whether or not it has one or two transcriptional spots (and the corresponding fluorescence values for those spots at that time point). a. You will first need to edit the ConstructList at the beginning of the code to list the names of your constructs as you have them in DataStatus.xls b. You can also perform the underlying function ComparingSpotsCorrRWAdj for each individual movie- to do so you need to load the CompiledParticles.m, APDetection.m, and ‘XXX_lin.mat’ files from that movie’s folder, and manually run the save function at the end of the code.
 2.	Run “RunBurstPropertiesSlope.m” to create BurstPropertiesSlope.mat files for all approved movies. This is the code that goes through all of the fluorescence traces to determine where transcriptional bursts are happening and records the different properties of each burst (i.e. burst size, frequency, duration, etc.) a. Here you must also edit the ConstructList at the beginning b. If you are using a different microscope, you will also want to edit the ON and OFF thresholds in SlopeBurstCalling.m (lines 26-27) to correspond to the FRNAP (or negative FRNAP for OFF threshold) calculated for your microscope as done in Lammers, et al., 2018
+
 Once the two above files have been created (SpotDiff.m and BurstPropertiesSlope.mat) for all movies you wish to analyze, you can run the following scripts:
+
 Comparing total mRNA produced by different constructs - AvgmRNAProdbyEmbryoRW
 
 1.	This groups all of the integrated fluorescence values associated with each allele (recorded in CompiledParticles) by AP bin, embryo, and construct. The output is a structure, AvgProdAllAP, that contains a few different things, the most useful being an array of all integrated fluorescence values of a given construct (ie across all the movies you have of that construct) organized by AP bin (each column is a different AP bin). It also uses this data to calculate the 95% CI (as well as underlying SD and SE) for each construct at each AP bin.
@@ -28,5 +30,6 @@ Calculating reporter distance – ReporterDistDistribution_RW
 
 
 Python TF binding probability model
+
 Modeling of TF binding probability was done using Python code, found in the TF_pBound Jupyter Notebook, run on a high performance computing cluster. The bash code used to call the modeling code is also in this notebook, along with the code to generate model-related figures. 
 The Bcd gradient used in this code is from Fowlkes, et al., 2008, but different TF gradients could be used. You first need to generate the input parameters for the model (i.e. the range of Es, C, and T you want to use). The resulting file is then used as input for the modeling code, which again, is called using the bash script.   
