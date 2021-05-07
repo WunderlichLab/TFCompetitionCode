@@ -8,7 +8,7 @@ Running "RW" scripts for compiling and plotting data as in Waymack, et al, 2021:
 
 Once the two above files have been created (SpotDiff.m and BurstPropertiesSlope.mat) for all movies you wish to analyze, you can run the following scripts:
 
-Comparing total mRNA produced by different constructs - AvgmRNAProdbyEmbryoRW
+Comparing total mRNA produced by different constructs - TotalExpressionLevelsRW
 
 1.	This groups all of the integrated fluorescence values associated with each allele (recorded in CompiledParticles) by AP bin, embryo, and construct. The output is a structure, AvgProdAllAP, that contains a few different things, the most useful being an array of all integrated fluorescence values of a given construct (ie across all the movies you have of that construct) organized by AP bin (each column is a different AP bin). It also uses this data to calculate the 95% CI (as well as underlying SD and SE) for each construct at each AP bin.
 2.	The very end of the calculations section removes data points from the final structure where there was only 1 allele at that AP bin for the entire construct. This was done to avoid the issue of trying to calculate error bars with only one data point. If you’re not planning on imaging many embryos (>= 3) you might want to remove this section.
