@@ -496,6 +496,61 @@ set(gcf,'PaperUnits','inches');
 set(gcf,'PaperPosition',[xLeft yTop 4 6]);
 saveas(gcf, [FigDirect filesep 'HbP2_BcdArrays_HemiHomoLines','.pdf'],'pdf');
 
+%% Effect of Bcd arrays at low vs high Bcd levels 
+% %EL positions to use for high v low TF lvls
+HiBcd_AP = 18; % 42.5% EL
+LowBcd_AP = 26; % 62.5% EL
+
+figure
+Constructs_1xBcd =[39,52,56];
+Constructs_Hemi = [26,8,10];
+APBins_1xBcd = [ExpressionBins{1,[39,52,56]}];
+APBins_Hemi = [ExpressionBins{1,[26,8,10]}];
+for ss = 1:length(APBins_1xBcd)
+    XError = AvgProdAllAP(Constructs_Hemi(ss)).All95Conf(HiBcd_AP);
+    YError = AvgProdAllAP(Constructs_1xBcd(ss)).All95Conf(HiBcd_AP);
+    ColorUse = Colors(Constructs_Hemi(ss)).Color;
+    
+    %use different point styles to indicate high vs low bcd
+    errorbar(AvgProdAllAP(Constructs_Hemi(ss)).AvgProd(HiBcd_AP), AvgProdAllAP(Constructs_1xBcd(ss)).AvgProd(HiBcd_AP),YError, YError, XError, XError,'o','Color',ColorUse,'LineWidth',2.5,'MarkerSize',10, 'MarkerFaceColor', ColorUse);
+    %plot(AvgProdAllAP(Constructs_Hemi(ss)).AvgProd(APBins_Hemi(ss)), AvgProdAllAP(Constructs_Homo(ss)).AvgProd(APBins_Homo(ss)),'o','LineWidth',2.5,'Color',Colors(Constructs_Homo(ss)).Color);
+    hold on 
+end
+
+% plot low Bcd points
+for ss = 1:length(APBins_1xBcd)
+    ColorUse = Colors(Constructs_Hemi(ss)).Color;
+    LowBcd_AP_Use = LowBcd_AP;
+    
+    %deal with constructs not expressing that far posterior
+    if ss == 2
+        LowBcd_AP_Use = 25; % most post exp bin of 2xprox = 60%
+    elseif ss == 3 
+        LowBcd_AP_Use = 24; %Most post exp bin of SE w 6xBcd = 57.5%
+    end
+     XError = AvgProdAllAP(Constructs_Hemi(ss)).All95Conf(LowBcd_AP_Use);
+    YError = AvgProdAllAP(Constructs_1xBcd(ss)).All95Conf(LowBcd_AP_Use);
+    
+    errorbar(AvgProdAllAP(Constructs_Hemi(ss)).AvgProd(LowBcd_AP_Use), AvgProdAllAP(Constructs_1xBcd(ss)).AvgProd(LowBcd_AP_Use),YError, YError, XError, XError,'o','Color',ColorUse,'LineWidth',2.5, 'LineStyle','--','MarkerSize',10);
+    %plot(AvgProdAllAP(Constructs_Hemi(ss)).AvgProd(APBins_Hemi(ss)), AvgProdAllAP(Constructs_Homo(ss)).AvgProd(APBins_Homo(ss)),'o','LineWidth',2.5,'Color',Colors(Constructs_Homo(ss)).Color);
+    hold on 
+end
+
+XVals = [0, 4e5, 6e5, 10e5, 14e5];
+YVals = XVals;
+plot(XVals, YVals,'Color','k','LineWidth',2.5,'LineStyle','--')
+area(XVals, YVals,'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.2);
+ylim([0 10e5]);
+xlim([0 10e5]);
+ylabel('with Bcd array total mRNA per allele');
+xlabel('hemizygous total mRNA per allele');
+legend('high Bcd', 'low Bcd','Location','best');
+set(gca, 'YColor','k');
+set(gca, 'Box','On','FontSize', fontsize, 'FontName', fontname,'LineWidth',0.5,'YColor','k');
+set(gcf,'PaperUnits','inches');
+set(gcf,'PaperPosition',[xLeft yTop 7 6]);
+saveas(gcf, [FigDirect filesep 'BcdCompasFxHemi_AllPts','.pdf'],'pdf');
+    
 %% Compare reporter competition between insertion sites
 % shadow pair 
 figure
